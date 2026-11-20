@@ -1,7 +1,45 @@
-# Day 12 — AI SDLC: Đảo Đèn Lồng
+# Đảo Đèn Lồng
 
-> **Cá nhân** (1 người / 1 MSSV) · Áp dụng SDLC cùng AI để xây một **game 3D** qua **4 phase**, từ yêu cầu ban đầu tới bản phát hành.
-> **Lab board + trợ giảng:** **[Đảo Đèn Lồng Lab](https://claude.ai/artifact/Q1RYyv1dxjUczzCbd2ZnoW)**
+## Video demo
+
+Xem video demo Release `v1.0.0` sau khi phát hành.
+
+Game 3D góc nhìn thứ ba bằng Three.js/Vite: thu thập đom đóm, thắp/châm dầu đèn và né Bóng Mực qua 3 Đêm.
+
+## Chạy trong tối đa 3 lệnh
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
+Điều khiển: `WASD` di chuyển, `Space` tỏa sáng, `E` tương tác/nạp đom đóm, `Esc/P` tạm dừng.
+
+## Kiểm chứng
+
+```bash
+npm test
+npm run headless -- --seed 42 --night 1 --ticks 600 --snapshot-every 10 --out out.jsonl
+npm run bench -- --seed 42 --duration 30 --out bench.json
+npm run soak -- --seed 7 --nights 10 --out soak.json
+```
+
+`game.contract.json` là Test Contract v1.3. Lệnh headless hỗ trợ `--scenario`, `--inputs`, `--seed`, `--night`, `--ticks`, `--snapshot-every` và `--out`.
+
+## Sáng tạo của tôi
+
+- Cốt lõi engine được tách khỏi Three.js, nên headless không cần cửa sổ/GPU.
+- Ánh sáng vàng và sương tím làm đảo sáng dần khi đèn được thắp.
+
+## Tài liệu
+
+- [CHANGELOG.md](CHANGELOG.md)
+- [CREDITS.md](CREDITS.md)
+- [LICENSE](LICENSE)
+- [AGENTS.md](AGENTS.md)
+- Giả định: [docs/notes/assumptions.md](docs/notes/assumptions.md)
+- Evaluation/retro: [docs/notes/evaluation.md](docs/notes/evaluation.md), [docs/notes/retro.md](docs/notes/retro.md)
 
 ---
 
