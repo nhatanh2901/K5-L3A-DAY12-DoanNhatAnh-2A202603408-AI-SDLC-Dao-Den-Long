@@ -1,16 +1,27 @@
-import fs from "node:fs";
-import {createGame, applyScenario, stepGame} from "./game-core.js";
-const args=process.argv.slice(2);
-const out=args.includes("--out")?args[args.indexOf("--out")+1]: "soak.json";
-const seed=Number(args.includes("--seed")?args[args.indexOf("--seed")+1]:7);
-const nights=Number(args.includes("--nights")?args[args.indexOf("--nights")+1]:10);
-const start=performance.now(); const results=[]; let crashes=0;
-for(let i=1;i<=nights;i++){
+import fs from 'node:fs';
+import os from 'node:os';
+import {createGame,stepGame} from './game-core.js';
+const args=process.argv.slice(2),arg=(name,fallback)=>args.includes(name)?args[args.indexOf(name)+1]:fallback;
+const out=arg('--out','soak.json'),seed=Number(arg('--seed',7)),nights=Number(arg('--nights',10));
+if(!Number.isInteger(seed)||seed<0||!Number.isInteger(nights)||nights<1){console.error('Invalid seed/nights');process.exit(2);}
+const start=performance.now(),memStart=process.memoryUsage().rss/1048576;
+let peak=memStart,crashes=0;const results=[],runs=[];
+for(let i=0;i<nights;i++) {
+  let game;
   try {
-    const game=createGame({seed:seed+i,night:((i-1)%3)+1});
-    for(let k=0;k<21600&&game.state==="playing";k++) stepGame(game,{});
-    results.push(game.state==="won"?"won":"lost");
-  } catch(e){ crashes++; results.push("lost"); }
+    game=createGame({seed:seed+i,night:i%3+1});
+    // Normal engine, no scenario overrides. Continuous movement exercises spawns, falls,
+    // collision, fuel, and cleanup. A loss is a legitimate outcome, not a crash.
+    for(let k=0;k<game.duration*60+1&&game.state==='playing';k++) {
+      const phase=Math.floor(k/240)%4;
+      stepGame(game,{move:[[1,0],[0,1],[-1,0],[0,-1]][phase],interact:k%30===0,pulse:k%180===0,dash:k%120===0,jump:k%90===0});
+      if(k%600===0)peak=Math.max(peak,process.memoryUsage().rss/1048576);
+      if(!game.player.pos.every(Number.isFinite)||!Number.isFinite(game.score)||game.motes.length>200)throw new Error('Invalid or unbounded engine state');
+    }
+    if(game.state==='playing')throw new Error('Night failed to terminate');
+    results.push(game.state);runs.push({seed:seed+i,night:game.night,ticks:game.sim_tick,result:game.state});
+  }catch(e){crashes++;results.push('crash');runs.push({seed:seed+i,error:e.message});}
 }
-const mem=process.memoryUsage().rss/1048576;
-fs.writeFileSync(out,JSON.stringify({nights,crashes,results,mem_start_mb:Number(mem.toFixed(1)),mem_end_mb:Number(mem.toFixed(1)),duration_s:Number(((performance.now()-start)/1000).toFixed(3))},null,2));
+const memEnd=process.memoryUsage().rss/1048576;peak=Math.max(peak,memEnd);
+const result={nights,crashes,results,runs,mem_start_mb:memStart,mem_end_mb:memEnd,peak_mem_mb:peak,duration_s:(performance.now()-start)/1000,environment:{node:process.version,os:`${os.platform()} ${os.release()}`,cpu:os.cpus()[0]?.model},scope:'Node engine soak; not a GPU or browser memory measurement'};
+fs.writeFileSync(out,JSON.stringify(result,null,2));console.log(`Soak: ${nights} nights, ${crashes} crashes`);if(crashes)process.exitCode=1;

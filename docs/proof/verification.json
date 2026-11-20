@@ -1,0 +1,178 @@
+{
+  "captured_at": "2026-11-20T14:43:50.374Z",
+  "environment": {
+    "node": "v24.15.0",
+    "os": "win32 10.0.19045",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1235U"
+  },
+  "source_hash_format": "UTF-8; CRLF normalized to LF for cross-platform checkouts",
+  "browser_checks": true,
+  "results": [
+    {
+      "label": "tests",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "--test",
+        "tests/game.test.js",
+        "tests/determinism.test.js",
+        "tests/regression.test.js",
+        "tests/cli.test.js"
+      ],
+      "exit_code": 0,
+      "duration_ms": 492.27680000000004
+    },
+    {
+      "label": "build",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "node_modules/vite/bin/vite.js",
+        "build"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1285.7378
+    },
+    {
+      "label": "headless",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "42",
+        "--night",
+        "1",
+        "--ticks",
+        "600",
+        "--out",
+        "docs/proof/headless.jsonl"
+      ],
+      "exit_code": 0,
+      "duration_ms": 89.84479999999985
+    },
+    {
+      "label": "dawn-win",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "42",
+        "--night",
+        "1",
+        "--ticks",
+        "60",
+        "--scenario",
+        "scenarios/dawn-win.json",
+        "--out",
+        "docs/proof/dawn-win.jsonl"
+      ],
+      "exit_code": 0,
+      "duration_ms": 62.56650000000013
+    },
+    {
+      "label": "refuel",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "src/headless.js",
+        "--seed",
+        "42",
+        "--ticks",
+        "60",
+        "--scenario",
+        "scenarios/refuel.json",
+        "--inputs",
+        "scenarios/refuel-inputs.json",
+        "--out",
+        "docs/proof/refuel.jsonl"
+      ],
+      "exit_code": 0,
+      "duration_ms": 48.05919999999992
+    },
+    {
+      "label": "soak",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "src/soak.js",
+        "--seed",
+        "7",
+        "--nights",
+        "10",
+        "--out",
+        "docs/proof/soak.json"
+      ],
+      "exit_code": 0,
+      "duration_ms": 728.0281000000002
+    },
+    {
+      "label": "browser",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "scripts/browser.mjs",
+        "--mode",
+        "check",
+        "--out",
+        "docs/proof/browser.json"
+      ],
+      "exit_code": 0,
+      "duration_ms": 3564.9190999999996
+    },
+    {
+      "label": "bench",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "src/bench.js",
+        "--seed",
+        "42",
+        "--duration",
+        "30",
+        "--out",
+        "docs/proof/bench.json"
+      ],
+      "exit_code": 0,
+      "duration_ms": 33209.9709
+    },
+    {
+      "label": "demo",
+      "command": [
+        "D:\\Program Files\\nodejs\\node.exe",
+        "scripts/browser.mjs",
+        "--mode",
+        "demo",
+        "--out",
+        "docs/demo/recording.json"
+      ],
+      "exit_code": 0,
+      "duration_ms": 50449.706399999995
+    }
+  ],
+  "source_sha256": {
+    "package.json": "50e8cc0d1a6cf3bf70b219efd19d6010da66fe5d1d29b600bdbd05fbd2d7a305",
+    "package-lock.json": "6bcde026d613db99ac99c311fb9918ac32ae79e52aa5a00ef670d745448cd731",
+    "game.contract.json": "dcdb440f0151cb868858b97f1530439cde25d7e3bced6f2ef6a9e46562f22f81",
+    "vite.config.js": "7e5421abb16879ab4612c4accddcace4865e82a6ca3313dacf3a2fb9b462dafb",
+    "index.html": "3ebdbc70f1e26c05640f7df81a1086184c5dc0da7574f67d70cdbb16a024c520",
+    "bench.html": "8e62536a84bd16870d6e6421428fb9ba0dcc9ac33b47910cf860218610c58ef4",
+    "src/bench-client.js": "96f044385a5d24d6e619e2c6874bdb3099db4d708fd7ceff7fd014c2ae9536a4",
+    "src/bench.js": "4c3e69dc47fc9c6080b898392e22350a2050b589737ca202cf1bb10dac11b644",
+    "src/browser-check.js": "8af88cfcda1ab08afaaa426d6144db44f778f1fc7d41420eebf1c23e1f05f23e",
+    "src/demo-client.js": "8facdd52a5f4dc6f18746ca9c8f0caa7534894cdcd6ee68c85eac143e83d7672",
+    "src/game-core.js": "0d0f3c561e4a7514d21d6745d5ca04412d19c918daa2a07d74fe333324ad28df",
+    "src/headless.js": "7f7de6424cba28b11ce016665ee9ae107fd01ae697e9ae79f5b6d4fa935037ef",
+    "src/leaderboard.js": "2eb73607d3bddce0fbe6b06e3d44f3587b3f3cbae1bf3a3ebbddb698aa10ef24",
+    "src/main.js": "0b2d9469ddd0f870b35821fbfb30e100009963ab653d232237868ab21a3b7f17",
+    "src/ranking.js": "f1fc89b328b805d62f2ddd45531a898b717facab7526c2b257927e44b08d01e2",
+    "src/scene.js": "1ddd729317566f9ebe4e25a4b7a95a588c51a61d9ed0816acd40abce9e0f10ab",
+    "src/soak.js": "4098f6fc2ddf8d5665d72205ba99c94f2d2678a904fda3023b918eddf9177b72",
+    "src/style.css": "edd36fae4f6f84fcc0841e022bead3b6d5d9f6405915470c7f5c13fb2369c4e6",
+    "scripts/browser.mjs": "f36f88c0569819f5d32df20201cd095fe5d8e06a2a34055d6aec2e1f2b127a76",
+    "scripts/package.ps1": "b5e8edc869a4879b74ca8332a013d736aed3c1d4f91146ce768cb8c79da4e3b2",
+    "scripts/publish.mjs": "6ffa40d5344e9d447e94853030816cfe95d7a073d8a54fa5ca207b5c3f14db01",
+    "scripts/serve.mjs": "1ca01d6513d1ea06cc8f3903880b7f23b30d73af0de727c10142905f1b30c667",
+    "scripts/verify.mjs": "baab40eb2444c2fa7aa4469eb5b26e6a8b07bb28e1c8d3690a40a14493f1eca7",
+    "tests/cli.test.js": "4ae16de067f251558f2bd5bce6cd57b2c46069567aac5b7599678cd1de548462",
+    "tests/determinism.test.js": "7e21811e69f5ce93543b67f87c8d9d70e07d3e281f7376a0aefa826999e05fc0",
+    "tests/game.test.js": "3f028863bbcd5cac623ff0e189f8be0ea1fc41ae90a057ac1e03dcb4ef91651e",
+    "tests/regression.test.js": "253a7670e284bd6676a5d312d704744aa1b3864b8a816bb1445aadf1c5cba6a2",
+    "scenarios/dawn-win.json": "87d7387dd3053ed2b17ebed6288795b2c0a8a0e26b83c7ec1a5e86c7a6bfca8a",
+    "scenarios/refuel-inputs.json": "2da16049d3c447280f9d58242c164c56f3ac2090afcd703931ead16377b78466",
+    "scenarios/refuel.json": "f579d5c97fc589ac799acedb689fe254d78cc3117e100160f6e088d394845304"
+  }
+}

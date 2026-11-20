@@ -13,7 +13,76 @@
     "lost",
     "lost"
   ],
-  "mem_start_mb": 42.2,
-  "mem_end_mb": 42.2,
-  "duration_s": 0.272
+  "runs": [
+    {
+      "seed": 7,
+      "night": 1,
+      "ticks": 18000,
+      "result": "lost"
+    },
+    {
+      "seed": 8,
+      "night": 2,
+      "ticks": 1129,
+      "result": "lost"
+    },
+    {
+      "seed": 9,
+      "night": 3,
+      "ticks": 9476,
+      "result": "lost"
+    },
+    {
+      "seed": 10,
+      "night": 1,
+      "ticks": 18000,
+      "result": "lost"
+    },
+    {
+      "seed": 11,
+      "night": 2,
+      "ticks": 1090,
+      "result": "lost"
+    },
+    {
+      "seed": 12,
+      "night": 3,
+      "ticks": 2653,
+      "result": "lost"
+    },
+    {
+      "seed": 13,
+      "night": 1,
+      "ticks": 18000,
+      "result": "lost"
+    },
+    {
+      "seed": 14,
+      "night": 2,
+      "ticks": 1090,
+      "result": "lost"
+    },
+    {
+      "seed": 15,
+      "night": 3,
+      "ticks": 19323,
+      "result": "lost"
+    },
+    {
+      "seed": 16,
+      "night": 1,
+      "ticks": 18000,
+      "result": "lost"
+    }
+  ],
+  "mem_start_mb": 39.52734375,
+  "mem_end_mb": 53.0234375,
+  "peak_mem_mb": 62.9609375,
+  "duration_s": 0.6669882,
+  "environment": {
+    "node": "v24.15.0",
+    "os": "win32 10.0.19045",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1235U"
+  },
+  "scope": "Node engine soak; not a GPU or browser memory measurement"
 }

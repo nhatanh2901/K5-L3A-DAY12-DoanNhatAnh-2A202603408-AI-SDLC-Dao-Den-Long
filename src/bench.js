@@ -1,14 +1,3 @@
-import fs from "node:fs";
-const args=process.argv.slice(2);
-const out=args.includes("--out") ? args[args.indexOf("--out")+1] : "bench.json";
-const duration=Number(args.includes("--duration") ? args[args.indexOf("--duration")+1] : "30");
-const start=performance.now();
-const frames=duration*60;
-const dt=Array(frames).fill(1000/60);
-const dtSorted=[...dt].sort((a,b)=>b-a);
-const k=Math.max(1,Math.ceil(0.01*frames));
-const p1=1000/(dtSorted.slice(0,k).reduce((a,b)=>a+b,0)/k);
-const sorted=dt.slice().sort((a,b)=>a-b), p95=sorted[Math.floor((0.95*(sorted.length-1))+0.5)];
-const avgFps=1000/(dt.reduce((a,b)=>a+b,0)/frames);
-const result={contract_version:"1.3",avg_fps:Number(avgFps.toFixed(3)),p1_low_fps:Number(p1.toFixed(3)),frame_ms_p95:Number(p95.toFixed(3)),frames,load_ms:Math.max(1,Math.round(performance.now()-start)),peak_mem_mb:null,vsync_off:true,renderer:"Three.js / WebGL 2",os:`${process.platform} ${process.arch}`};
-fs.writeFileSync(out,JSON.stringify(result,null,2));
+// Kept as a public package entry; actual frame timing happens in Chromium/WebGL.
+process.argv.splice(2,0,'--mode','bench');
+await import('../scripts/browser.mjs');

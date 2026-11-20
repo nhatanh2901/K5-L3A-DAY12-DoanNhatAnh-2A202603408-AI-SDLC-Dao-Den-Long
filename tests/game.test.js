@@ -36,7 +36,8 @@ test("mote pickup follows 1m radius and carry capacity",()=>{
 
 test("low-fuel lantern goes out and emits lantern_out",()=>{
   const game=createGame({seed:1,night:1}); applyScenario(game,{lanterns:[{id:"L1",lit:true,fuel:1}],random_motes:false,random_shades:false});
-  const events=stepGame(game,{});
+  let events=[];
+  for(let i=0;i<60;i++) events.push(...stepGame(game,{}));
   assert.equal(game.lanterns[0].lit,false);
   assert.ok(events.some(e=>e.name==="lantern_out"));
 });

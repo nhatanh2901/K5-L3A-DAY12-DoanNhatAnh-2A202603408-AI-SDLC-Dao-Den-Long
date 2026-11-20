@@ -1,0 +1,32 @@
+✔ headless rejects invalid counts, nights, flags and scenarios (279.9664ms)
+✔ headless dawn scenario emits one terminal event at the requested time (47.284ms)
+✔ headless exports actual ranked entries from source file (47.5764ms)
+✔ two identical headless runs are byte-identical (151.2719ms)
+✔ invalid scenario exits with code 2 (54.0567ms)
+✔ contract v1.3 exists and matches standard tuning (0.914ms)
+✔ scenario replaces motes and lantern positions deterministically (2.4492ms)
+✔ interaction deposits mote and lantern lights at 10 (1.536ms)
+✔ mote pickup follows 1m radius and carry capacity (0.3503ms)
+✔ low-fuel lantern goes out and emits lantern_out (1.9741ms)
+✔ fuel decays one unit in 60 ticks, not one unit per tick (4.0988ms)
+✔ draining shade adds five units per second to decay (1.4163ms)
+✔ all lit before dawn does not finish; all lit at dawn wins exactly once (1.7067ms)
+✔ dawn with unlit lantern loses and scenario countdown is honored (0.3111ms)
+✔ refuel consumes only needed motes; relighting costs five (0.4592ms)
+✔ pickup has no deposit score; capacity and radius prevent extra pickup (0.3007ms)
+✔ pause freezes time, fuel and movement until toggled again (0.6992ms)
+✔ dash has duration and cooldown; diagonal movement is normalized (0.4477ms)
+✔ pulse pushes, stuns for two seconds, and gives draining-shade bonus (0.5873ms)
+✔ seed controls automatic mote and shade spawns on each night (50.0402ms)
+✔ bridge and terraces have physical surfaces; falling costs a flame (0.4967ms)
+✔ hits honor invulnerability and drop motes with TTL (0.5316ms)
+✔ leaderboard validates, sorts ties by timestamp, and limits ten entries (1.276ms)
+✔ wind charm blocks displacement and drifter theft; drifters can be stunned (0.6313ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 442.7432

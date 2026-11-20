@@ -1,37 +1,41 @@
-import fs from "node:fs";
-import {createGame, applyScenario, stepGame, snapshot} from "./game-core.js";
+import fs from 'node:fs';
+import {createGame,applyScenario,stepGame,snapshot} from './game-core.js';
+import {loadLeaderboard} from './leaderboard.js';
 
-const args = process.argv.slice(2);
-function arg(name, fallback) { const i=args.indexOf(name); return i>=0 ? args[i+1] : fallback; }
-const seed=Number(arg("--seed","1")), night=Number(arg("--night","1")), ticks=Number(arg("--ticks","600"));
-const out=arg("--out",null), scenarioPath=arg("--scenario",null), inputPath=arg("--inputs",null);
-const exportLeaderboard=arg("--export-leaderboard",null);
-if (exportLeaderboard) {
-  fs.writeFileSync(exportLeaderboard,JSON.stringify({entries:[]},null,2));
-  process.exit(0);
-}
-let scenario=null, inputData={frames:[]};
 try {
-  if (scenarioPath) scenario=JSON.parse(fs.readFileSync(scenarioPath,"utf8"));
-  if (inputPath) inputData=JSON.parse(fs.readFileSync(inputPath,"utf8"));
-} catch (e) { console.error(e.message); process.exit(2); }
-const game=createGame({seed,night});
-applyScenario(game,scenario);
-const lines=[];
-const snapshotEvery=Number(arg("--snapshot-every","10"));
-if (!snapshotEvery || snapshotEvery<1) { console.error("snapshot-every must be positive"); process.exit(2); }
-lines.push(JSON.stringify(snapshot(game)));
-let current={move:[0,0],cam_yaw_deg:0,interact:false,pulse:false,jump:false,dash:false,pause:false};
-let frameIndex=0;
-for (let k=0;k<ticks && game.state==="playing";k++) {
-  while (frameIndex<inputData.frames?.length && inputData.frames[frameIndex].tick<=k) {
-    Object.assign(current,inputData.frames[frameIndex]); frameIndex++;
+  const allowed=new Set(['--seed','--night','--ticks','--out','--scenario','--inputs','--snapshot-every','--export-leaderboard','--leaderboard']);
+  const args=process.argv.slice(2),opts={};
+  for(let i=0;i<args.length;i+=2){if(!allowed.has(args[i])||args[i+1]===undefined||args[i+1].startsWith('--'))throw new Error(`Invalid argument ${args[i]}`);opts[args[i]]=args[i+1];}
+  const integer=(name,fallback,min)=>{const value=Number(opts[name]??fallback);if(!Number.isSafeInteger(value)||value<min)throw new Error(`Invalid ${name}`);return value;};
+  const seed=integer('--seed',1,0),night=integer('--night',1,1),ticks=integer('--ticks',600,0),every=integer('--snapshot-every',10,1);
+  if(night>3)throw new Error('Invalid night');
+  if(opts['--export-leaderboard']) {
+    if(!opts['--leaderboard'])throw new Error('--leaderboard source file is required');
+    fs.writeFileSync(opts['--export-leaderboard'],JSON.stringify({entries:loadLeaderboard(opts['--leaderboard'])},null,2));
+  } else {
+    const game=createGame({seed,night});
+    if(opts['--scenario'])applyScenario(game,JSON.parse(fs.readFileSync(opts['--scenario'],'utf8')));
+    const data=opts['--inputs']?JSON.parse(fs.readFileSync(opts['--inputs'],'utf8')):{frames:[]};
+    if(!Array.isArray(data.frames))throw new Error('inputs.frames must be an array');
+    let last=-1;
+    for(const f of data.frames){
+      if(!Number.isInteger(f.tick)||f.tick<last||f.tick<0)throw new Error('Input ticks must be nonnegative and ordered');last=f.tick;
+      if(f.move&&(!Array.isArray(f.move)||f.move.length!==2||!f.move.every(Number.isFinite)))throw new Error('Invalid move');
+      if(f.cam_yaw_deg!==undefined&&!Number.isFinite(f.cam_yaw_deg))throw new Error('Invalid yaw');
+      for(const key of ['interact','pulse','jump','dash','pause'])if(f[key]!==undefined&&typeof f[key]!=='boolean')throw new Error(`Invalid ${key}`);
+    }
+    const lines=[JSON.stringify(snapshot(game))];let index=0,current={move:[0,0],cam_yaw_deg:0};
+    for(let tick=0;tick<ticks&&game.state==='playing';tick++) {
+      const actions={};
+      while(index<data.frames.length&&data.frames[index].tick===tick) {
+        const f=data.frames[index++];if(f.move)current.move=f.move;if(f.cam_yaw_deg!==undefined)current.cam_yaw_deg=f.cam_yaw_deg;
+        for(const key of ['interact','pulse','jump','dash','pause'])if(f[key]!==undefined)actions[key]=f[key];
+      }
+      const before=game.sim_tick;
+      for(const e of stepGame(game,{...current,...actions}))lines.push(JSON.stringify(e));
+      if(game.sim_tick!==before&&game.sim_tick%every===0)lines.push(JSON.stringify(snapshot(game)));
+    }
+    lines.push(JSON.stringify({type:'end',ticks:game.sim_tick,state:game.state,score:game.score}));
+    const text=lines.join('\n')+'\n';if(opts['--out'])fs.writeFileSync(opts['--out'],text);else process.stdout.write(text);
   }
-  const events=stepGame(game,{...current});
-  for (const event of events) lines.push(JSON.stringify(event));
-  if (game.sim_tick%snapshotEvery===0) lines.push(JSON.stringify(snapshot(game)));
-}
-lines.push(JSON.stringify({type:"end",ticks:game.sim_tick,state:game.state,score:game.score}));
-const text=lines.join("\n")+"\n";
-if (out) fs.writeFileSync(out,text);
-else process.stdout.write(text);
+} catch(error) {console.error(error.message);process.exitCode=2;}

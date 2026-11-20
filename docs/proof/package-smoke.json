@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-11-20T14:45:12.092Z",
+  "scope": "Extracted release ZIP; Node-only server, no npm dependencies installed in extracted folder",
+  "html_status": 200,
+  "assets": [
+    "/assets/index-IQmL_hKO.js",
+    "/assets/three-OJzZuD52.js",
+    "/assets/index-Dd_tZl-7.css"
+  ],
+  "passed": true
+}

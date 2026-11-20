@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Sửa chữa và kiểm chứng ngày 20/11/2026
+
+- Sửa hao dầu theo 1/60 giây, countdown scenario và thắng lúc Bình Minh; sửa điểm nhặt/nạp, drain bonus và hồi stun; đọc tuning từ contract.
+- Bổ sung spawn có seed, dash/jump/fall/pause, gió/Bùa Gió/Gió Lạc theo giả định công khai; scene và collision dùng cùng mặt đất.
+- UI có đom đóm, enemy engine, dầu, campaign 3 Night, thắng/thua/restart, bảng xếp hạng local/export, giảm chuyển động và âm thanh lập trình.
+- Thay benchmark tạo FPS cố định bằng Chromium/WebGL timing thật; sửa RSS soak, thêm regression/CLI/browser checks, scenario, verify gate và CI.
+- Bổ sung demo tự động có bằng chứng, script đóng gói web tĩnh và ghi chú rõ phần thiếu ticket/lịch sử/usage AI.
+- Giữ nguyên bốn tag phase cũ. Nội dung v1.0.0 cũ bên dưới là mô tả từng ghi trong repo, không phải bằng chứng tất cả tính năng đã hoạt động ở tag cũ.
+
 ## v1.0.0
 
 - Tích hợp Three.js, chế độ chơi 3D và HUD.

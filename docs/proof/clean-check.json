@@ -1,0 +1,8 @@
+﻿{
+    "captured_at":  "2026-11-20T21:44:45.9977333+07:00",
+    "install":  "npm ci --cache .npm-cache --no-audit --no-fund",
+    "tests":  "24 passed",
+    "build":  "passed outside sandbox after directory-access denial",
+    "headless":  "600 ticks; byte-identical to primary verification",
+    "sha256":  "6B3318293929FD2FD5FF2BF497309EBF9E7A54E1A33A37227A8A00526CBF74F5"
+}

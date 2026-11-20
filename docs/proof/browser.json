@@ -1,0 +1,30 @@
+{
+  "passed": 16,
+  "checks": [
+    "Start menu visible",
+    "Invalid name blocks start",
+    "Start enters playable Night 1",
+    "WebGL renders motes, lanterns and terrain",
+    "Pause freezes simulation ticks",
+    "Resume unpauses",
+    "Keyboard movement and dash reach engine",
+    "Jump is independent from forward movement",
+    "Dawn win and campaign count Night 1",
+    "Continue creates Night 2",
+    "Dawn win and campaign count Night 2",
+    "Continue creates Night 3",
+    "Dawn win and campaign count Night 3",
+    "Campaign result persists in local leaderboard",
+    "Loss stops play and offers restart",
+    "Restart resets campaign"
+  ],
+  "scope": "Real UI in headless Chromium; accelerated dawn uses explicit scenario fixtures, not a normal-length playthrough",
+  "screenshot": "docs\\proof\\gameplay.png",
+  "environment": {
+    "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "host": "win32 10.0.19045",
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+    "node": "v24.15.0"
+  },
+  "captured_at": "2026-11-20T14:42:26.566Z"
+}

@@ -7,10 +7,14 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
+    "serve": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.js",
     "headless": "node src/headless.js",
     "bench": "node src/bench.js",
-    "soak": "node src/soak.js"
+    "soak": "node src/soak.js",
+    "verify": "node scripts/verify.mjs",
+    "browser-check": "node scripts/browser.mjs --mode check --out docs/proof/browser.json",
+    "demo": "node scripts/browser.mjs --mode demo --out docs/demo/recording.json"
   },
   "dependencies": {
     "three": "^0.180.0"
